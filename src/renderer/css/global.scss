@@ -1,0 +1,22 @@
+// 全局样式，只需在入口文件引入一次
+
+@import './_reset';
+@import './helper';
+
+html {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  line-height: 1;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  img,
+  button {
+    // display: block;
+  }
+}
