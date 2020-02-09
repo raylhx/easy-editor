@@ -1,10 +1,10 @@
 <template>
   <div class="edit">
     <div class="edit-navigator">
-      <span class="edit-title">这里是文件名字名字名字名字</span>
-      <span class="edit-tips">最后更改于 2020年 2月 5日</span>       
-      <div class="btn edit-save">保存</div>
-      <!-- <div class="btn edit-impo rt">导出</div>         -->
+      <span class="edit-title">{{ title }}</span>
+      <span class="edit-tips">最后更改于 {{ savaTime }}</span>       
+      <div class="btn edit-save" @click="save" id="save">保存</div>
+      <!-- <div class="btn edit-import" id="test">test</div>         -->
     </div>
     <div class="edit-container">
       <div class="edit-toolbar-wrapper">
@@ -14,7 +14,7 @@
         <div class="edit-main-content">
           <div class="editor">
             <div class="editor-title">
-              <input type="text" name="title" class='title' value="todo这里需要再考虑一下"/>
+              <input type="text" name="title" class='title' v-model="title"/>
             </div>
             <div id="main" class="edit-main"></div>
           </div>
@@ -26,13 +26,23 @@
 
 <script>
 import Editor from 'wangeditor'
+import {
+  timeFormat
+} from '../../lib/uitls'
+
 export default {
   name: 'edit',
   data () {
-    return { }
+    return {
+      editor: null,
+      title: '新隐私协议',
+      savaTime: +new Date(), // 最后本地保存的时间
+      htmlContent: '' // html内容
+    }
   },
   mounted () {
     this.initEditor()
+    timeFormat(0)
   },
   methods: {
     /**
@@ -77,6 +87,28 @@ export default {
       ]
       editor.customConfig.pasteIgnoreImg = true
       editor.create()
+
+      this.editor = editor
+
+      // this.html = editor.txt.text()
+    },
+    getHtml () {
+      return new Promise((resolve, reject) => {
+        let text = this.editor.txt.html()
+        if (text) resolve(text)
+      })
+    },
+    /**
+     * @description 保存内容
+     */
+    async save () {
+      // 获取标题
+      let fileName = this.title// todo 文本过滤
+      console.log('filename', fileName)
+      // 获取内容
+      let fileContent = await this.getHtml()
+      console.log(fileContent)
+      
     }
   }
 }
@@ -133,6 +165,7 @@ export default {
     border-radius: 15px;
     font-size: 16px;
     background-color: #ffdd00;
+    cursor: pointer;
   }
 }
 .edit-container {
