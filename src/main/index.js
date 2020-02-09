@@ -1,6 +1,9 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import {
+  app,
+  BrowserWindow
+} from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -20,7 +23,7 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 558,
     useContentSize: true,
     width: 1000
   })

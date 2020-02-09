@@ -1,9 +1,9 @@
 <template>
   <div class="index">
     <div class="logo"></div>
-    <section>
-      <button class="btn-import">导入文件</button>
-      <button class="btn-create">新建一个</button>
+    <section class="select-btn">
+      <button class="btn-create"><router-link to="/edit">新建一个</router-link></button>
+      <button class="btn-import"><router-link to="/bar">导入文件</router-link></button>
     </section>
   </div>
 </template>
@@ -18,30 +18,38 @@
 .index {
   width: 100%;
   height: 100%;
-  padding-top: 115px;
+  padding-top: 90px;
   .logo {
-    width: 128px;
-    height: 128px;
+    width: 300px;
+    height: 300px;
     margin: 0 auto;
     background: url(~@/assets/logo.png) center center no-repeat;
-    background-size: 128px;
+    background-size: 300px;
+  }
+  .select-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   button {
-    display: block;
+    display: inline-block;
     width: 120px;
     height: 40px;
-    margin: 0 auto;
-    margin-bottom: 20px;
+    margin-right: 20px;
     border-radius: 20px;
     outline: none;
   }
-  .btn-import {
-    color: #000;
-    background-color: #ffdd00;
+  a {
+    text-decoration: none;
+    color: inherit;
   }
-  .btn-create {
+  .btn-import {
     color: #fff;
     background-color: #ccc;
+  }
+  .btn-create {
+    color: #000;
+    background-color: #ffdd00;
   }
 }
 </style>
