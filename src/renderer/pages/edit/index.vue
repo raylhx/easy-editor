@@ -2,8 +2,8 @@
   <div class="edit">
     <div class="edit-navigator">
       <span class="edit-title">{{ title }}</span>
-      <span class="edit-tips">最后更改于 {{ savaTime }}</span>       
-      <div class="btn edit-save" @click="save" id="save">保存</div>
+      <span class="edit-tips" v-show="savaTime">最后更改于 {{ savaTime }}</span>       
+      <div class="btn edit-save" @click="saveFile" id="save">保存</div>
       <!-- <div class="btn edit-import" id="test">test</div>         -->
     </div>
     <div class="edit-container">
@@ -26,9 +26,15 @@
 
 <script>
 import Editor from 'wangeditor'
+import fs from '@/modules/Filesystem.js'
 import {
   timeFormat
-} from '../../lib/uitls'
+} from '@/lib/uitls'
+
+import {
+  getSavePath,
+  openDialog
+} from '@/modules/dialog'
 
 export default {
   name: 'edit',
@@ -36,8 +42,9 @@ export default {
     return {
       editor: null,
       title: '新隐私协议',
-      savaTime: +new Date(), // 最后本地保存的时间
-      htmlContent: '' // html内容
+      savaTime: 0, // 最后本地保存的时间
+      htmlContent: '', // html内容
+      savePath: null // 保存路径
     }
   },
   mounted () {
@@ -99,16 +106,52 @@ export default {
       })
     },
     /**
-     * @description 保存内容
+     * @description 点击保存文件
      */
-    async save () {
+    async saveFile () {
       // 获取标题
       let fileName = this.title// todo 文本过滤
       console.log('filename', fileName)
       // 获取内容
       let fileContent = await this.getHtml()
       console.log(fileContent)
-      
+
+      this.savePath = this.saveAsDialog() // todo这里可能需要promise异步
+      if (this.savePath) {
+        this.writeFile(fileContent)
+      }
+    },
+    /**
+     * @description 写入文件
+     */
+    writeFile (content) {
+      try {
+        let error
+
+        fs.writeFile(this.savePath, content, (err) => {
+          error = err
+        })
+
+        if (!error) {
+          // todo 弹窗上用的是原生logo，需要最后找个图片替换一下
+          openDialog('info', `保存成功：${this.savePath}`)
+        }
+      } catch (e) {
+        console.log('error', e)
+      }
+    },
+    /**
+     * @description 保存对话框
+     */
+    saveAsDialog () {
+      let result = getSavePath({ name: 'test html file', extensions: ['html'] })
+      if (result) return result
+    },
+    /**
+     * @description 更新保存时间
+     */
+    updateSaveTime () {
+
     }
   }
 }
