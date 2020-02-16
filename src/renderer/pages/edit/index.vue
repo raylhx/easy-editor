@@ -2,9 +2,8 @@
   <div class="edit">
     <div class="edit-navigator">
       <span class="edit-title">{{ title }}</span>
-      <span class="edit-tips" v-show="savaTime">最后更改于 {{ savaTime }}</span>       
+      <span class="edit-tips" v-show="saveTime">最后保存于 {{ saveTime }}</span>       
       <div class="btn edit-save" @click="saveFile" id="save">保存</div>
-      <!-- <div class="btn edit-import" id="test">test</div>         -->
     </div>
     <div class="edit-container">
       <div class="edit-toolbar-wrapper">
@@ -42,7 +41,7 @@ export default {
     return {
       editor: null,
       title: '新隐私协议',
-      savaTime: 0, // 最后本地保存的时间
+      saveTime: 0, // 最后本地保存的时间
       htmlContent: '', // html内容
       savePath: null // 保存路径
     }
@@ -113,28 +112,29 @@ export default {
       let fileName = this.title// todo 文本过滤
       console.log('filename', fileName)
       // 获取内容
-      let fileContent = await this.getHtml()
-      console.log(fileContent)
+      this.htmlContent = await this.getHtml()
+      console.log(this.htmlContent)
 
       this.savePath = this.saveAsDialog() // todo这里可能需要promise异步
       if (this.savePath) {
-        this.writeFile(fileContent)
+        this.writeFile()
       }
     },
     /**
      * @description 写入文件
      */
-    writeFile (content) {
+    writeFile () {
       try {
         let error
 
-        fs.writeFile(this.savePath, content, (err) => {
+        fs.writeFile(this.savePath, this.htmlContent, (err) => {
           error = err
         })
 
         if (!error) {
           // todo 弹窗上用的是原生logo，需要最后找个图片替换一下
           openDialog('info', `保存成功：${this.savePath}`)
+          this.localSave(this.htmlContent)
         }
       } catch (e) {
         console.log('error', e)
@@ -151,7 +151,22 @@ export default {
      * @description 更新保存时间
      */
     updateSaveTime () {
-
+      this.saveTime = timeFormat(+new Date(), 'yyyy年MM月dd日 HH:mm:ss')
+      console.log('最后保存时间', this.saveTime)
+    },
+    /**
+     * @description 本地保存
+     */
+    localSave (content) {
+      if (!content) return false
+      window.localStorage.setItem('easy', content)
+      this.updateSaveTime()
+    },
+    /**
+     * @description 本地读取
+     */
+    localRead () {
+      return window.localStorage.getItem('easy') || null
     }
   }
 }
