@@ -32,3 +32,14 @@ export const openDialog = (type, message) => {
     detail: message
   })
 }
+
+export const selectFileDialog = (type, message) => {
+  const browserWindow = remote.BrowserWindow
+  const focusedWindow = browserWindow.getFocusedWindow()
+
+  return dialog.showOpenDialog(focusedWindow, {
+    title: 'Open File',
+    filters: ['html'], // todo 这里暂时写html，之后再写
+    properties: ['openFile']
+  })
+}

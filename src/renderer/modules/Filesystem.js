@@ -8,8 +8,13 @@ class Filesystem {
   /**
    * @description 读取文件
    */
-  readFile () {
-
+  readFile (path, cb) {
+    fs.readFile(path, (err, data) => {
+      if (err) {
+        cb(err, null)
+      }
+      cb(null, data.toString('utf8'))
+    })
   }
   /**
    * @description 写文件

@@ -1,6 +1,7 @@
 <template>
   <div class="edit">
     <div class="edit-navigator">
+      <span class="edit-title" v-show="fileName">{{fileName}} / </span>
       <span class="edit-title">{{ title }}</span>
       <span class="edit-tips" v-show="saveTime">最后保存于 {{ saveTime }}</span>       
       <div class="btn edit-save" @click="saveFile" id="save">保存</div>
@@ -43,7 +44,8 @@ export default {
       title: '新隐私协议',
       saveTime: 0, // 最后本地保存的时间
       htmlContent: '', // html内容
-      savePath: null // 保存路径
+      savePath: null, // 保存路径
+      fileName: ''// 本地保存的文件名
     }
   },
   mounted () {
@@ -108,9 +110,6 @@ export default {
      * @description 点击保存文件
      */
     async saveFile () {
-      // 获取标题
-      let fileName = this.title// todo 文本过滤
-      console.log('filename', fileName)
       // 获取内容
       this.htmlContent = await this.getHtml()
       console.log(this.htmlContent)

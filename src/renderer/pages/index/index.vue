@@ -3,15 +3,49 @@
     <div class="logo"></div>
     <section class="select-btn">
       <button class="btn-create"><router-link to="/edit">新建一个</router-link></button>
-      <button class="btn-import"><router-link to="/bar">导入文件</router-link></button>
+      <button class="btn-import"><a @click="importFile">导入文件</a></button>
     </section>
   </div>
 </template>
 
 <script>
-  export default {
-  
+import fs from '@/modules/Filesystem.js'
+
+import {
+  selectFileDialog
+} from '@/modules/dialog'
+export default {
+  data () {
+    return {
+      readFilePath: '' // 读取本地文件的文件路径
+    }
+  },
+  mounted () {
+
+  },
+  methods: {
+    /**
+     * @description 用户点击导入按钮
+     */
+    importFile () {
+      let result = selectFileDialog()
+      if (result.length > 0) {
+        this.readFilePath = result[0]
+        this.readFile(this.readFilePath)
+      }
+    },
+    readFile (path = null) {
+      if (!path) return false
+      fs.readFile(path, (err, data) => {
+        if (err) {
+          console.log('读取文件失败')
+          return false
+        }
+        console.log('data', data)
+      })
+    }
   }
+}
 </script>
 
 <style lang="scss" scoped>
