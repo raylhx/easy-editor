@@ -10,7 +10,7 @@
  * timeFormat(1446603656378, 'yyyy-MM-dd hh:mm:ss.S') ==> 2006-07-02 08:09:04.423 12小时制
  * timeFormat(1446603656378, 'yyyy-M-d h:m:s.S') ==> 2006-7-2 8:9:4.18
  */
-export function timeFormat (time, fmt = 'yyyy-MM-dd') {
+export function timeFormat(time, fmt = 'yyyy-MM-dd') {
   if (time === undefined || time === null || isNaN(time)) {
     return ''
   }
