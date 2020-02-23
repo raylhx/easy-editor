@@ -1,5 +1,7 @@
 const state = {
-  main: 0
+  main: 0,
+  fileContext: ''
+
 }
 
 const mutations = {
@@ -12,7 +14,9 @@ const mutations = {
 }
 
 const actions = {
-  someAsyncTask ({ commit }) {
+  someAsyncTask ({
+    commit
+  }) {
     // do something async
     commit('INCREMENT_MAIN_COUNTER')
   }

@@ -3,9 +3,6 @@ import {
   startTemplate,
   endTemplate
 } from './template'
-import {
-  resolve
-} from 'dns'
 
 class Filesystem {
   constructor () {
