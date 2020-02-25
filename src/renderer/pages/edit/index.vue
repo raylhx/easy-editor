@@ -1,9 +1,10 @@
 <template>
   <div class="edit">
     <div class="edit-navigator">
+      <div class="edit-home" @click="backHome" alt="Home"></div>
       <span class="edit-title" v-show="fileName">{{fileName}} / </span>
       <span class="edit-title">{{ title }}</span>
-      <span class="edit-tips" v-show="saveTime">最后保存于 {{ saveTime }}</span>       
+      <span class="edit-tips" v-show="saveTime">最后保存于 {{ saveTime }}</span>
       <div class="btn edit-save" @click="saveFile" id="save">保存</div>
     </div>
     <div class="edit-container">
@@ -132,7 +133,11 @@ export default {
 
         if (!error) {
           // todo 弹窗上用的是原生logo，需要最后找个图片替换一下
-          openDialog('info', `保存成功：${this.savePath}`)
+          openDialog({
+            type: 'info',
+            buttons: ['OK'],
+            detail: `保存成功：${this.savePath}`
+          })
           this.localSave(this.htmlContent)
         }
       } catch (e) {
@@ -166,6 +171,41 @@ export default {
      */
     localRead () {
       return window.localStorage.getItem('easy') || null
+    },
+    /**
+     * @description 返回Index
+     */
+    async backHome () {
+      this.htmlContent = await this.getHtml()
+
+      if (this.savePath) {
+        // 是否更新
+        let result = openDialog({
+          type: 'question',
+          title: 'Update',
+          buttons: ['yes', 'No'],
+          defaultId: 0,
+          cancelId: 1,
+          detail: 'Do you want to update the file ?'
+        })
+        if (result === 0) {
+          // 文件内容写入更新 todo 还未实现
+        }
+      } else if (this.htmlContent) {
+        // 询问是否保存 并且关闭
+        let result = openDialog({
+          type: 'question',
+          title: 'Save',
+          buttons: ['yes', 'No'],
+          defaultId: 0,
+          cancelId: 1,
+          detail: 'The file has not been saved.Do you want to Save it?'
+        })
+        console.log('result', result)
+        result === 0 && this.saveFile()
+      }
+      // todo 记得把这路由打开
+      this.$router.push('index')
     }
   }
 }
@@ -195,6 +235,14 @@ export default {
     margin-right: 8px;
     background: url(~@/assets/logo.png) center center no-repeat;
     background-size: 20px;
+  }
+  .edit-home{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    background: url(~@/assets/home_icon.png) center center no-repeat;
+    background-size: 20px;
+    cursor: pointer;
   }
   .edit-title {
     max-width: 300px;

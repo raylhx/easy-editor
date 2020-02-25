@@ -21,16 +21,22 @@ export const getSavePath = extensions => {
   })
 }
 
-export const openDialog = (type, message) => {
+/**
+ *
+ * @param {Object} config
+ * type: none info error error warning question
+ * {
+    title: type,
+    type: type,
+    buttons: ['OK','No'],
+    detail: message
+  }
+ */
+export const openDialog = (config) => {
   const browserWindow = remote.BrowserWindow
   const focusedWindow = browserWindow.getFocusedWindow()
 
-  return dialog.showMessageBox(focusedWindow, {
-    title: type,
-    type: type,
-    buttons: ['OK'],
-    detail: message
-  })
+  return dialog.showMessageBox(focusedWindow, config)
 }
 
 export const selectFileDialog = (type, message) => {
