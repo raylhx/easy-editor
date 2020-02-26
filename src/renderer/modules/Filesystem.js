@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 import {
   startTemplate,
   endTemplate
@@ -7,6 +8,13 @@ import {
 class Filesystem {
   constructor () {
     this.key = null
+  }
+  /**
+   * @description 绝对路径获取文件名
+   */
+  getBasename (url = '') {
+    let name = path.basename(url)
+    if (name) return name
   }
   /**
    * @description 将内容插入Html模板中

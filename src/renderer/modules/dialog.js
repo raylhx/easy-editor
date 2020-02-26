@@ -11,12 +11,13 @@ const {
  * @description 获取保存文件路径
  * @param {Array} extensions
  */
-export const getSavePath = extensions => {
+export const getSavePath = (name, extensions) => {
   const browserWindow = remote.BrowserWindow
   const focusedWindow = browserWindow.getFocusedWindow()
 
   return dialog.showSaveDialog(focusedWindow, {
     title: 'Save File Dialog',
+    defaultPath: name,
     filters: extensions
   })
 }

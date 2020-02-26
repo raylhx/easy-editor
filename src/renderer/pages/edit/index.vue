@@ -3,7 +3,7 @@
     <div class="edit-navigator">
       <div class="edit-home" @click="backHome" alt="Home"></div>
       <span class="edit-title" v-show="fileName">{{fileName}} / </span>
-      <span class="edit-title">{{ title }}</span>
+      <span class="edit-title">隐私权保护政策</span>
       <span class="edit-tips" v-show="saveTime">最后保存于 {{ saveTime }}</span>
       <div class="btn edit-save" @click="saveFile" id="save">保存</div>
     </div>
@@ -14,9 +14,9 @@
       <div class="edit-main-wrapper">
         <div class="edit-main-content">
           <div class="editor">
-            <div class="editor-title">
+            <!-- <div class="editor-title">
               <input type="text" name="title" class='title' v-model="title"/>
-            </div>
+            </div> -->
             <div id="main" class="edit-main"></div>
           </div>
         </div>
@@ -42,11 +42,11 @@ export default {
   data () {
     return {
       editor: null,
-      title: '新隐私协议',
+      title: '隐私权保护政策',
       saveTime: 0, // 最后本地保存的时间
       htmlContent: '', // html内容
       savePath: null, // 保存路径
-      fileName: ''// 本地保存的文件名
+      fileName: '新建'// 本地保存的文件名 todo 要不要后缀名
     }
   },
   mounted () {
@@ -118,6 +118,7 @@ export default {
       this.savePath = this.saveAsDialog() // todo这里可能需要promise异步
       if (this.savePath) {
         this.writeFile()
+        this.fileName = fs.getBasename(this.savePath)
       }
     },
     /**
@@ -148,7 +149,7 @@ export default {
      * @description 保存对话框
      */
     saveAsDialog () {
-      let result = getSavePath({ name: 'test html file', extensions: ['html'] })
+      let result = getSavePath('privacyprotocol.html', { name: 'html', extensions: ['html'] })
       if (result) return result
     },
     /**
@@ -212,6 +213,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/css/edit.css";
 * {
   box-sizing: border-box;
 }
@@ -321,7 +323,7 @@ export default {
     .edit-main {
       position: relative;
       width: 100%;
-      padding: 0px 60px 90px 60px;
+      padding: 38px 60px 90px 60px;
       min-height: 500px; // todo
       background-color: #fff;
     }
