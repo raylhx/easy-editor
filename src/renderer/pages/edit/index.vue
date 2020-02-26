@@ -205,8 +205,9 @@ export default {
         console.log('result', result)
         result === 0 && this.saveFile()
       }
+
       // todo 记得把这路由打开
-      this.$router.push('index')
+      // this.$router.push('index')
     }
   }
 }

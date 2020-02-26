@@ -3,7 +3,8 @@
     <div class="logo"></div>
     <section class="select-btn">
       <button class="btn-create"><router-link to="/edit">新建一个</router-link></button>
-      <button class="btn-import"><a @click="importFile">导入文件</a></button>
+      <button class="btn-import"><a @click="tst">导入文件</a></button>
+      <button class="btn-import"><a @click="con">2</a></button>
     </section>
   </div>
 </template>
@@ -21,9 +22,16 @@ export default {
     }
   },
   mounted () {
-
   },
   methods: {
+    tst () {
+      console.log('?')
+      this.$store.dispatch('Reader/UPDATE_FILE')
+      // this.$store.commit('UPDATE_FILE')
+    },
+    con () {
+      console.log('！！！！', this.$store.state.Reader.main)
+    },
     /**
      * @description 用户点击导入按钮
      */
