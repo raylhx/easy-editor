@@ -1,7 +1,8 @@
 const state = {
   isReadFile: false, // 是否读取文件
   fileContext: '', // 读取文件内容
-  fileName: '' // 文件名
+  fileName: '', // 文件名
+  filePath: '' // 文件路径
 }
 
 const mutations = {
@@ -13,6 +14,7 @@ const mutations = {
     state.isReadFile = true
     state.fileContext = file.context
     state.fileName = file.name
+    state.filePath = file.path
   }
 }
 

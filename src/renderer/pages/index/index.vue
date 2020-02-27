@@ -44,9 +44,9 @@ export default {
         console.log('data', data)
         this.$store.dispatch('Reader/UPDATE_FILE', {
           context: data,
-          name: fs.getBasename(this.readFilePath)
+          name: fs.getBasename(this.readFilePath),
+          path: path
         }).then(() => {
-          // console.log('fs.getBasename(this.readFilePath)', fs.getBasename(this.readFilePath))
           this.$router.push('edit')
         })
       })

@@ -64,6 +64,7 @@ export default {
       if (this.flag) {
         this.htmlContent = this.$store.state.Reader.fileContext
         this.fileName = this.$store.state.Reader.fileName
+        this.savePath = this.$store.state.Reader.filePath
       }
       this.initEditor()
     },
@@ -82,15 +83,10 @@ export default {
         'underline', // 下划线
         'strikeThrough', // 删除线
         'foreColor', // 文字颜色
-        // 'backColor', // 背景颜色
         'link', // 插入链接
         'list', // 列表
         'justify', // 对齐方式
-        // 'quote', // 引用
-        // 'emoticon', // 表情
-        // 'image', // 插入图片
         'table', // 表格
-        // 'video', // 插入视频
         'code', // 插入代码
         'undo', // 撤销
         'redo' // 重复
@@ -111,8 +107,6 @@ export default {
       editor.create()
 
       this.editor = editor
-
-      // this.html = editor.txt.text()
     },
     getHtml () {
       return new Promise((resolve, reject) => {
@@ -128,11 +122,11 @@ export default {
       this.htmlContent = await this.getHtml()
       console.log(this.htmlContent)
 
-      this.savePath = this.saveAsDialog() // todo这里可能需要promise异步
-      if (this.savePath) {
-        this.writeFile()
-        this.fileName = fs.getBasename(this.savePath)
+      if (!this.savePath) {
+        this.savePath = this.saveAsDialog() // todo这里可能需要promise异步
       }
+      this.writeFile()
+      this.fileName = fs.getBasename(this.savePath)
     },
     /**
      * @description 写入文件
