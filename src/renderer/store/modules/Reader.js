@@ -1,5 +1,6 @@
 const state = {
   main: 123,
+  id: 1,
   isReadFile: '', // 是否读取文件
   fileContext: '', // 读取文件内容
   fileName: '' // 文件名
@@ -14,12 +15,12 @@ const mutations = {
   },
   // 更新文件
   UPDATE_FILE (state) {
-    state.main += 10
+    state.id += 10
   }
 }
 
 const actions = {
-  UPDATE_FILE ({commit}) {
+  UPDATE_FILE ({ commit }) {
     console.log('???')
     commit('UPDATE_FILE')
   }

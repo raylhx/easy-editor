@@ -26,11 +26,11 @@ export default {
   methods: {
     tst () {
       console.log('?')
-      this.$store.dispatch('Reader/UPDATE_FILE')
+      this.$store.dispatch('UPDATE_FILE')
       // this.$store.commit('UPDATE_FILE')
     },
     con () {
-      console.log('！！！！', this.$store.state.Reader.main)
+      console.log('！！！！', this.$store.state.Reader.id)
     },
     /**
      * @description 用户点击导入按钮
