@@ -1,28 +1,27 @@
 const state = {
-  main: 123,
-  id: 1,
-  isReadFile: '', // 是否读取文件
+  isReadFile: false, // 是否读取文件
   fileContext: '', // 读取文件内容
   fileName: '' // 文件名
 }
 
 const mutations = {
-  DECREMENT_MAIN_COUNTER (state) {
-    state.main--
-  },
-  INCREMENT_MAIN_COUNTER (state) {
-    state.main++
-  },
+
   // 更新文件
-  UPDATE_FILE (state) {
-    state.id += 10
+  UPDATE_FILE (state, file) {
+    if (file.context === '') return false
+
+    state.isReadFile = true
+    state.fileContext = file.context
+    state.fileName = file.name
   }
 }
 
 const actions = {
-  UPDATE_FILE ({ commit }) {
-    console.log('???')
-    commit('UPDATE_FILE')
+  UPDATE_FILE ({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      commit('UPDATE_FILE', data)
+      resolve()
+    })
   }
 }
 

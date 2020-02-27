@@ -50,7 +50,7 @@ class Filesystem {
         cb(err, null)
       }
       let content = data.toString('utf8')
-      console.log('原始导入文件', content)
+      // console.log('原始导入文件', content)
       if (content) {
         content = this.extractFromContent(content)
       }

@@ -9,7 +9,7 @@
     </div>
     <div class="edit-container">
       <div class="edit-toolbar-wrapper">
-        <div id="toolbar" class="edit-toolbar"></div>  
+        <div id="toolbar" class="edit-toolbar"></div>
       </div>
       <div class="edit-main-wrapper">
         <div class="edit-main-content">
@@ -17,7 +17,8 @@
             <!-- <div class="editor-title">
               <input type="text" name="title" class='title' v-model="title"/>
             </div> -->
-            <div id="main" class="edit-main"></div>
+            <div id="main" class="edit-main" v-html="htmlContent">
+            </div>
           </div>
         </div>
       </div>
@@ -41,6 +42,7 @@ export default {
   name: 'edit',
   data () {
     return {
+      flag: false, // 导入true 新建 false
       editor: null,
       title: '隐私权保护政策',
       saveTime: 0, // 最后本地保存的时间
@@ -50,10 +52,21 @@ export default {
     }
   },
   mounted () {
-    this.initEditor()
-    timeFormat(0)
+    this.flag = this.$store.state.Reader.isReadFile
+    console.log('是否导入？', this.flag)
+    this.checkImport()
   },
   methods: {
+    /**
+     * 检查是否导入文件内容
+     */
+    checkImport () {
+      if (this.flag) {
+        this.htmlContent = this.$store.state.Reader.fileContext
+        this.fileName = this.$store.state.Reader.fileName
+      }
+      this.initEditor()
+    },
     /**
      * @description 初始化编辑器
      */
@@ -207,7 +220,7 @@ export default {
       }
 
       // todo 记得把这路由打开
-      // this.$router.push('index')
+      this.$router.push('index')
     }
   }
 }

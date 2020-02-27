@@ -5,6 +5,8 @@ import {
   BrowserWindow
 } from 'electron'
 
+// 如果是使用插件的话，这一行代码需要引入
+// import './../renderer/store/index'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html

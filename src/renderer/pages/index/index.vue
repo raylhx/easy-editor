@@ -3,8 +3,7 @@
     <div class="logo"></div>
     <section class="select-btn">
       <button class="btn-create"><router-link to="/edit">新建一个</router-link></button>
-      <button class="btn-import"><a @click="tst">导入文件</a></button>
-      <button class="btn-import"><a @click="con">2</a></button>
+      <button class="btn-import" @click="importFile"><a>导入文件</a></button>
     </section>
   </div>
 </template>
@@ -24,14 +23,6 @@ export default {
   mounted () {
   },
   methods: {
-    tst () {
-      console.log('?')
-      this.$store.dispatch('UPDATE_FILE')
-      // this.$store.commit('UPDATE_FILE')
-    },
-    con () {
-      console.log('！！！！', this.$store.state.Reader.id)
-    },
     /**
      * @description 用户点击导入按钮
      */
@@ -49,7 +40,15 @@ export default {
           console.log('读取文件失败')
           return false
         }
+
         console.log('data', data)
+        this.$store.dispatch('Reader/UPDATE_FILE', {
+          context: data,
+          name: fs.getBasename(this.readFilePath)
+        }).then(() => {
+          // console.log('fs.getBasename(this.readFilePath)', fs.getBasename(this.readFilePath))
+          this.$router.push('edit')
+        })
       })
     }
   }
