@@ -167,7 +167,7 @@ export default {
       console.log('最后保存时间', this.saveTime)
     },
     /**
-     * @description 本地保存
+     * @description 本地保存 todo
      */
     localSave (content) {
       if (!content) return false
@@ -196,9 +196,7 @@ export default {
           cancelId: 1,
           detail: 'Do you want to update the file ?'
         })
-        if (result === 0) {
-          // 文件内容写入更新 todo 还未实现
-        }
+        result === 0 && this.writeFile()
       } else if (this.htmlContent) {
         // 询问是否保存 并且关闭
         let result = openDialog({
