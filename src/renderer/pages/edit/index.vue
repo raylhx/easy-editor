@@ -123,7 +123,9 @@ export default {
       console.log(this.htmlContent)
 
       if (!this.savePath) {
-        this.savePath = this.saveAsDialog() // todo这里可能需要promise异步
+        let url = this.saveAsDialog() // todo这里可能需要promise异步
+        if (!url) return
+        this.savePath = url
       }
       this.writeFile()
       this.fileName = fs.getBasename(this.savePath)
@@ -244,7 +246,7 @@ export default {
     background: url(~@/assets/logo.png) center center no-repeat;
     background-size: 20px;
   }
-  .edit-home{
+  .edit-home {
     width: 20px;
     height: 20px;
     margin-right: 10px;

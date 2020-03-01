@@ -12,7 +12,7 @@ export const startTemplate = `<!DOCTYPE html>
   <meta name="viewport" content="initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no, shrink-to-fit=no&quot;">
   <title>隐私权保护政策</title>
 </head>
-<body>
+<body style="font-size: 24px;">
   <div class="app">
     <div id="content_start">`
 
