@@ -27,7 +27,15 @@
 </template>
 
 <script>
-import Editor from 'wangeditor'
+// import Editor from 'wangeditor'
+// Import TinyMCE
+import tinymce from 'tinymce/tinymce'
+
+// A theme is also required
+import 'tinymce/themes/silver'
+import 'tinymce/plugins/paste'
+import 'tinymce/plugins/code'
+
 import fs from '@/modules/Filesystem.js'
 import {
   timeFormat
@@ -68,49 +76,79 @@ export default {
       }
       this.initEditor()
     },
-    /**
-     * @description 初始化编辑器
-     */
     initEditor () {
-      let editor = new Editor('#toolbar', '#main')
-      // 自定义菜单栏选项
-      editor.customConfig.menus = [
-        'head', // 标题
-        'bold', // 粗体
-        'fontSize', // 字号
-        'fontName', // 字体
-        'italic', // 斜体
-        'underline', // 下划线
-        'strikeThrough', // 删除线
-        'foreColor', // 文字颜色
-        'link', // 插入链接
-        'list', // 列表
-        'justify', // 对齐方式
-        'table', // 表格
-        'code', // 插入代码
-        'undo', // 撤销
-        'redo' // 重复
-      ]
-      // 自定义颜色字体
-      editor.customConfig.colors = [
-        '#000000',
-        '#eeece0',
-        '#1c487f',
-        '#c24f4a',
-        '#8baa4a',
-        '#7b5ba1',
-        '#46acc8',
-        '#ff0000',
-        '#ffffff'
-      ]
-      editor.customConfig.pasteIgnoreImg = true
-      editor.create()
-
+      let editor = tinymce.init({
+        selector: '#main',
+        language_url: '/static/tinymce/zh_CN.js',
+        language: 'zh_CN',
+        // content_css: '/static/tinymce/content.css',
+        skin_url: '/static/tinymce/skins/ui/oxide',
+        element_format: 'html',
+        branding: false,
+        schema: 'html5',
+        allow_conditional_comments: false,
+        plugins: 'code paste', // http://tinymce.ax-z.cn/configure/content-filtering.php
+        toolbar: 'code',
+        fontsize_formats: '11px 12px 14px 16px 18px 24px 36px 48px',
+        paste_webkit_styles: 'all'
+        // valid_styles: {
+        //   '*': 'color',
+        //   'p': 'color',
+        //   'span': 'color'
+        // },
+        // invalid_styles: 'color font-size font-family'
+      })
+      console.log(editor)
       this.editor = editor
     },
+    test () {
+      let result = tinymce.activeEditor.getContent()
+      console.log(result)
+    },
+    // /**
+    //  * @description 初始化编辑器
+    //  */
+    // initEditor () {
+    //   let editor = new Editor('#toolbar', '#main')
+    //   // 自定义菜单栏选项
+    //   editor.customConfig.menus = [
+    //     'head', // 标题
+    //     'bold', // 粗体
+    //     'fontSize', // 字号
+    //     'fontName', // 字体
+    //     'italic', // 斜体
+    //     'underline', // 下划线
+    //     'strikeThrough', // 删除线
+    //     'foreColor', // 文字颜色
+    //     'link', // 插入链接
+    //     'list', // 列表
+    //     'justify', // 对齐方式
+    //     'table', // 表格
+    //     'code', // 插入代码
+    //     'undo', // 撤销
+    //     'redo' // 重复
+    //   ]
+    //   // 自定义颜色字体
+    //   editor.customConfig.colors = [
+    //     '#000000',
+    //     '#eeece0',
+    //     '#1c487f',
+    //     '#c24f4a',
+    //     '#8baa4a',
+    //     '#7b5ba1',
+    //     '#46acc8',
+    //     '#ff0000',
+    //     '#ffffff'
+    //   ]
+    //   editor.customConfig.pasteIgnoreImg = true
+    //   editor.create()
+
+    //   this.editor = editor
+    // },
     getHtml () {
       return new Promise((resolve, reject) => {
-        let text = this.editor.txt.html()
+        // let text = this.editor.txt.html()
+        let text = tinymce.activeEditor.getContent()
         if (text) resolve(text)
       })
     },
