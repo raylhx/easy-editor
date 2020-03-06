@@ -35,6 +35,8 @@ import tinymce from 'tinymce/tinymce'
 import 'tinymce/themes/silver'
 import 'tinymce/plugins/paste'
 import 'tinymce/plugins/code'
+import 'tinymce/plugins/lists'
+import 'tinymce/plugins/preview'
 
 import fs from '@/modules/Filesystem.js'
 import {
@@ -87,16 +89,10 @@ export default {
         branding: false,
         schema: 'html5',
         allow_conditional_comments: false,
-        plugins: 'code paste', // http://tinymce.ax-z.cn/configure/content-filtering.php
-        toolbar: 'code',
+        plugins: 'code paste preview lists', // http://tinymce.ax-z.cn/configure/content-filtering.php
+        toolbar: 'code preview numlist bullist',
         fontsize_formats: '11px 12px 14px 16px 18px 24px 36px 48px',
         paste_webkit_styles: 'all'
-        // valid_styles: {
-        //   '*': 'color',
-        //   'p': 'color',
-        //   'span': 'color'
-        // },
-        // invalid_styles: 'color font-size font-family'
       })
       console.log(editor)
       this.editor = editor
