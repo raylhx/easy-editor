@@ -1,9 +1,5 @@
 import fs from 'fs'
 import path from 'path'
-import {
-  startTemplate,
-  endTemplate
-} from './template'
 
 class Filesystem {
   constructor () {
@@ -15,12 +11,6 @@ class Filesystem {
   getBasename (url = '') {
     let name = path.basename(url)
     if (name) return name
-  }
-  /**
-   * @description 将内容插入Html模板中
-   */
-  insertIntoTemplate (data) {
-    return startTemplate + data + endTemplate
   }
   /**
    * @description 从html内容中提取body内容
