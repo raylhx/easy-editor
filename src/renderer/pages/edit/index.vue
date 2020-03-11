@@ -5,20 +5,12 @@
       <span class="edit-title" v-show="fileName">{{fileName}} / </span>
       <span class="edit-title">隐私权保护政策</span>
       <span class="edit-tips" v-show="saveTime">最后保存于 {{ saveTime }}</span>
-      <div class="btn edit-save" @click="saveFile" id="save">保存</div>
+      <div class="btn edit-save" @click="saveFile" id="save">一键导出</div>
     </div>
     <div class="edit-container">
-      <div class="edit-toolbar-wrapper">
-        <div id="toolbar" class="edit-toolbar"></div>
-      </div>
       <div class="edit-main-wrapper">
-        <div class="edit-main-content">
-          <div clareadTemplatess="editor">
-            <!-- <div class="editor-title">
-              <input type="text" name="title" class='title' v-model="title"/>
-            </div> -->
-            <div id="main" class="edit-main" v-html="htmlContent">
-            </div>
+        <div clareadTemplatess="editor">
+          <div id="main" class="edit-main" v-html="htmlContent">
           </div>
         </div>
       </div>
@@ -92,17 +84,19 @@ export default {
         selector: '#main',
         language_url: '/static/tinymce/zh_CN.js',
         language: 'zh_CN',
-        // content_css: '/static/tinymce/content.css',
+        content_css: '/static/tinymce/content.css',
         skin_url: '/static/tinymce/skins/ui/oxide',
         element_format: 'html',
         branding: false,
+        resize: false,
         schema: 'html5',
         remove_linebreaks: false,
         allow_conditional_comments: false,
         plugins: 'code paste preview lists', // http://tinymce.ax-z.cn/configure/content-filtering.php
-        toolbar: 'code preview numlist bullist bold italic underline',
+        toolbar: 'code preview numlist strikethrough bullist bold italic underline subscript superscript blockquote outdent indent alignjustify alignleft aligncenter alignright',
         fontsize_formats: '11px 12px 14px 16px 18px 24px 36px 48px',
-        paste_webkit_styles: 'all'
+        paste_webkit_styles: 'all',
+        height: '80vh'
       })
       console.log(editor)
       this.editor = editor
@@ -285,24 +279,12 @@ export default {
 .edit-container {
   width: 100%;
   height: calc(100vh - 50px);
-  .edit-toolbar-wrapper {
-    width: 100%;
-    border-bottom: 1px solid #e8e8e8;
-    .edit-toolbar {
-      width: 555px;
-      padding: 6px 0;
-      margin: 0 auto;
-    }
-  }
   .edit-main-wrapper {
     width: 100%;
-    height: calc(100% - 39px);
+    height: 100%;
+    padding: 16px 60px 64px;
     overflow: auto;
     background-color: #f9f9f9;
-    .edit-main-content {
-      width: 100%;
-      padding: 16px 0 64px 0;
-    }
     .editor {
       width: 874px;
       margin: 0 auto;
