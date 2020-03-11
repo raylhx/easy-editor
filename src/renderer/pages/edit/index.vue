@@ -5,13 +5,12 @@
       <span class="edit-title" v-show="fileName">{{fileName}} / </span>
       <span class="edit-title">隐私权保护政策</span>
       <span class="edit-tips" v-show="saveTime">最后保存于 {{ saveTime }}</span>
-      <div class="btn edit-save" @click="saveFile" id="save">一键导出</div>
+      <div class="btn edit-save" @click="saveFile" id="save">导出</div>
     </div>
     <div class="edit-container">
       <div class="edit-main-wrapper">
-        <div clareadTemplatess="editor">
-          <div id="main" class="edit-main" v-html="htmlContent">
-          </div>
+        <div class="editor">
+          <div id="main" class="edit-main" v-html="htmlContent"></div>
         </div>
       </div>
     </div>
@@ -217,9 +216,11 @@ export default {
 @import "~@/css/edit.css";
 * {
   box-sizing: border-box;
+  font-family: Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
 }
 .edit {
   width: 100%;
+  min-width: 960px;
   // height: 100%;
   height: 100vh;
   overflow: hidden;
@@ -286,7 +287,7 @@ export default {
     overflow: auto;
     background-color: #f9f9f9;
     .editor {
-      width: 874px;
+      // width: 874px;
       margin: 0 auto;
       border: 1px solid #e8e8e8;
       box-shadow: 0 2px 8px rgba(115, 115, 115, 0.08);
