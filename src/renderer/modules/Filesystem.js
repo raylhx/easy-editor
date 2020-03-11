@@ -27,16 +27,9 @@ class Filesystem {
    * @param {string} data
    */
   extractFromContent (data) {
-    let element
-    let reg1 = /id="content_start">(.*)<\/div><\/div><\/body>/
-    let res = data.match(reg1)
-    if (res.length > 0) {
-      element = res[1]
-      return element
-    }
     //  todo 抽取match方法，
     let reg2 = /<body>(.*)<\/body>/
-    res = data.match(reg2)
+    let res = data.match(reg2)
     if (res.length > 0) {
       return res[1]
     }
@@ -44,25 +37,33 @@ class Filesystem {
   /**
    * @description 读取文件
    */
-  readFile (path, cb) {
-    fs.readFile(path, (err, data) => {
-      if (err) {
-        cb(err, null)
-      }
-      let content = data.toString('utf8')
-      // console.log('原始导入文件', content)
-      if (content) {
-        content = this.extractFromContent(content)
-      }
-      cb(null, content)
+  readFile (path = '') {
+    return new Promise((resolve, reject) => {
+      if (!path) resolve('')
+      fs.readFile(path, (err, data) => {
+        if (err) {
+          resolve('')
+        }
+        let content = data.toString('utf8')
+        // console.log('读取内容', content)
+        resolve(content)
+      })
     })
   }
   /**
    * @description 写文件
    */
-  writeFile (path, data, cb) {
-    let content = this.insertIntoTemplate(data)
-    fs.writeFile(path, content, 'utf8', cb)
+  writeFile (path = '', data = '') {
+    return new Promise((resolve, reject) => {
+      if (!data || !path) resolve('')
+
+      fs.writeFile(path, data, 'utf8', (err) => {
+        console.log('write error', err)
+        if (!err) {
+          resolve('ok')
+        }
+      })
+    })
   }
 }
 

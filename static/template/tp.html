@@ -13,68 +13,7 @@
   <meta name="viewport"
     content="initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no, shrink-to-fit=no&quot;">
   <title>隐私权保护政策</title>
-  <script>
-    ! function (n, e) {
-      var t, i = n.document,
-        a = i.documentElement,
-        r = i.querySelector('meta[name="viewport"]'),
-        o = i.querySelector('meta[name="flexible"]'),
-        l = 0,
-        m = 0,
-        d = e.flexible || (e.flexible = {});
-      if (r) {
-        console.warn("将根据已有的meta标签来设置缩放比例");
-        var s = r.getAttribute("content").match(/initial\-scale=([\d\.]+)/);
-        s && (m = parseFloat(s[1]), l = parseInt(1 / m))
-      } else if (o) {
-        var p = o.getAttribute("content");
-        if (p) {
-          var c = p.match(/initial\-dpr=([\d\.]+)/),
-            u = p.match(/maximum\-dpr=([\d\.]+)/);
-          c && (l = parseFloat(c[1]), m = parseFloat((1 / l).toFixed(2))), u && (l = parseFloat(u[1]), m = parseFloat((
-            1 / l).toFixed(2)))
-        }
-      }
-      if (!l && !m) {
-        n.navigator.appVersion.match(/android/gi);
-        var f = n.navigator.appVersion.match(/iphone/gi),
-          v = n.devicePixelRatio;
-        m = 1 / (l = f ? 3 <= v && (!l || 3 <= l) ? 3 : 2 <= v && (!l || 2 <= l) ? 2 : 1 : 1)
-      }
-      if (a.setAttribute("data-dpr", l), !r)
-        if ((r = i.createElement("meta")).setAttribute("name", "viewport"), r.setAttribute("content", "initial-scale=" +
-            m + ", maximum-scale=" + m + ", minimum-scale=" + m + ', user-scalable=no, shrink-to-fit=no"'), a
-          .firstElementChild) a.firstElementChild.appendChild(r);
-        else {
-          var h = i.createElement("div");
-          h.appendChild(r), i.write(h.innerHTML)
-        }
 
-      function x() {
-        var e = a.getBoundingClientRect().width;
-        540 < e / l && (e = 540 * l);
-        var t = e / 10;
-        a.style.fontSize = t + "px";
-        var i = 1 * window.getComputedStyle(document.documentElement, null).fontSize.replace("px", "");
-        t !== i && (t /= i / t, a.style.fontSize = t + "px"), d.rem = n.rem = t
-      }
-      n.addEventListener("resize", function () {
-        clearTimeout(t), t = setTimeout(x, 300)
-      }, !1), n.addEventListener("pageshow", function (e) {
-        e.persisted && (clearTimeout(t), t = setTimeout(x, 300))
-      }, !1), "complete" === i.readyState ? i.body.style.fontSize = 12 * l + "px" : i.addEventListener(
-        "DOMContentLoaded",
-        function (e) {
-          i.body.style.fontSize = 12 * l + "px"
-        }, !1), x(), d.dpr = n.dpr = l, d.refreshRem = x, d.rem2px = function (e) {
-        var t = parseFloat(e) * this.rem;
-        return "string" == typeof e && e.match(/rem$/) && (t += "px"), t
-      }, d.px2rem = function (e) {
-        var t = parseFloat(e) / this.rem;
-        return "string" == typeof e && e.match(/px$/) && (t += "rem"), t
-      }
-    }(window, window.lib || (window.lib = {}))
-  </script>
   <style>
     html {
       background: transparent;
@@ -96,7 +35,7 @@
     article,
     aside,
     audio,
-    b,
+    /* b, */
     big,
     blockquote,
     body,
@@ -135,7 +74,7 @@
     mark,
     menu,
     nav,
-    /* ol, */
+    ol,
     object,
     output,
     p,
@@ -163,8 +102,8 @@
       margin: 0;
       padding: 0;
       font-size: 100%;
-      font-weight: 400;
-      font: inherit;
+      /* font-weight: 400; */
+      /* font: inherit; */
       vertical-align: baseline
     }
 
@@ -220,7 +159,7 @@
       text-decoration: line-through
     }
 
-    /* ol, */
+    ol,
     ul {
       list-style: none
     }
@@ -347,7 +286,7 @@
 <body style="font-size: 24px;">
   <div class="app">
     <div class="content" id="content_start">
-    {{insertContent}}
+    <insertContent>
     </div>
   </div>
 </body>

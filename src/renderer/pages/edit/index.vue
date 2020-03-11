@@ -13,7 +13,7 @@
       </div>
       <div class="edit-main-wrapper">
         <div class="edit-main-content">
-          <div class="editor">
+          <div clareadTemplatess="editor">
             <!-- <div class="editor-title">
               <input type="text" name="title" class='title' v-model="title"/>
             </div> -->
@@ -58,13 +58,15 @@ export default {
       saveTime: 0, // 最后本地保存的时间
       htmlContent: '', // html内容
       savePath: null, // 保存路径
-      fileName: '新建'// 本地保存的文件名 todo 要不要后缀名
+      fileName: '新建', // 本地保存的文件名 todo 要不要后缀名
+      templateText: '' // 模板文件
     }
   },
   mounted () {
     this.flag = this.$store.state.Reader.isReadFile
     console.log('是否导入？', this.flag)
     this.checkImport()
+    this.getTemplate()
   },
   methods: {
     /**
@@ -78,6 +80,13 @@ export default {
       }
       this.initEditor()
     },
+    async getTemplate () {
+      const tpl = await fs.readFile(`${__static}/template/tp.html`)
+      if (tpl) {
+        console.log('获取到模板文件')
+        this.templateText = tpl
+      }
+    },
     initEditor () {
       let editor = tinymce.init({
         selector: '#main',
@@ -88,62 +97,18 @@ export default {
         element_format: 'html',
         branding: false,
         schema: 'html5',
+        remove_linebreaks: false,
         allow_conditional_comments: false,
         plugins: 'code paste preview lists', // http://tinymce.ax-z.cn/configure/content-filtering.php
-        toolbar: 'code preview numlist bullist',
+        toolbar: 'code preview numlist bullist bold italic underline',
         fontsize_formats: '11px 12px 14px 16px 18px 24px 36px 48px',
         paste_webkit_styles: 'all'
       })
       console.log(editor)
       this.editor = editor
     },
-    test () {
-      let result = tinymce.activeEditor.getContent()
-      console.log(result)
-    },
-    // /**
-    //  * @description 初始化编辑器
-    //  */
-    // initEditor () {
-    //   let editor = new Editor('#toolbar', '#main')
-    //   // 自定义菜单栏选项
-    //   editor.customConfig.menus = [
-    //     'head', // 标题
-    //     'bold', // 粗体
-    //     'fontSize', // 字号
-    //     'fontName', // 字体
-    //     'italic', // 斜体
-    //     'underline', // 下划线
-    //     'strikeThrough', // 删除线
-    //     'foreColor', // 文字颜色
-    //     'link', // 插入链接
-    //     'list', // 列表
-    //     'justify', // 对齐方式
-    //     'table', // 表格
-    //     'code', // 插入代码
-    //     'undo', // 撤销
-    //     'redo' // 重复
-    //   ]
-    //   // 自定义颜色字体
-    //   editor.customConfig.colors = [
-    //     '#000000',
-    //     '#eeece0',
-    //     '#1c487f',
-    //     '#c24f4a',
-    //     '#8baa4a',
-    //     '#7b5ba1',
-    //     '#46acc8',
-    //     '#ff0000',
-    //     '#ffffff'
-    //   ]
-    //   editor.customConfig.pasteIgnoreImg = true
-    //   editor.create()
-
-    //   this.editor = editor
-    // },
     getHtml () {
       return new Promise((resolve, reject) => {
-        // let text = this.editor.txt.html()
         let text = tinymce.activeEditor.getContent()
         if (text) resolve(text)
       })
@@ -167,15 +132,13 @@ export default {
     /**
      * @description 写入文件
      */
-    writeFile () {
+    async writeFile () {
       try {
-        let error
+        let regx = /<insertContent>/gi
+        let data = this.templateText.replace(regx, this.htmlContent)
 
-        fs.writeFile(this.savePath, this.htmlContent, (err) => {
-          error = err
-        })
-
-        if (!error) {
+        const result = await fs.writeFile(this.savePath, data)
+        if (result) {
           // todo 弹窗上用的是原生logo，需要最后找个图片替换一下
           openDialog({
             type: 'info',
@@ -183,6 +146,8 @@ export default {
             detail: `保存成功：${this.savePath}`
           })
           this.localSave(this.htmlContent)
+        } else {
+          console.log('保存出错')
         }
       } catch (e) {
         console.log('error', e)

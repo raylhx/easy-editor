@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import fs from '@/modules/Filesystem.js'
+// import fs from '@/modules/Filesystem.js'
 
 import {
   selectFileDialog
@@ -33,23 +33,30 @@ export default {
         this.readFile(this.readFilePath)
       }
     },
-    readFile (path = null) {
-      if (!path) return false
-      fs.readFile(path, (err, data) => {
-        if (err) {
-          console.log('读取文件失败')
-          return false
-        }
+    async readFile (path = null) {
+      console.log('????', __static)
+      // if (!path) return false
+      // const res = await fs.readTemplate(path)
+      // if (res) {
+      //   console.log('?????')
+      //   console.log(res)
+      // }
+      // if (!path) return false
+      // fs.readFile(path, (err, data) => {
+      //   if (err) {
+      //     console.log('读取文件失败')
+      //     return false
+      //   }
 
-        console.log('data', data)
-        this.$store.dispatch('Reader/UPDATE_FILE', {
-          context: data,
-          name: fs.getBasename(this.readFilePath),
-          path: path
-        }).then(() => {
-          this.$router.push('edit')
-        })
-      })
+      //   console.log('data', data)
+      //   this.$store.dispatch('Reader/UPDATE_FILE', {
+      //     context: data,
+      //     name: fs.getBasename(this.readFilePath),
+      //     path: path
+      //   }).then(() => {
+      //     this.$router.push('edit')
+      //   })
+      // })
     }
   }
 }
