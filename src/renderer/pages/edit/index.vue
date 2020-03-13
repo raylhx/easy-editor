@@ -98,8 +98,7 @@ export default {
     },
     getHtml () {
       return new Promise((resolve, reject) => {
-        let text = tinymce.activeEditor.getContent()
-        if (text) resolve(text)
+        resolve(tinymce.activeEditor.getContent())
       })
     },
     /**
