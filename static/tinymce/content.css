@@ -1,0 +1,14 @@
+ul,ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ol{
+  padding-left: 10px;
+}
+ul{
+  padding-left: 15px;
+}
+li {
+  margin-bottom: 15px;
+}

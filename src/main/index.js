@@ -57,7 +57,7 @@ app.on('activate', () => {
 const menu = new Menu()
 
 menu.append(new MenuItem({
-  label: '',
+  label: 'File',
   submenu: [
     {
       label: '测试',

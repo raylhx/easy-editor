@@ -32,11 +32,9 @@ This project was generated with [electron-vue](https://github.com/SimulatedGREG/
 - F5刷新
 - 快捷键
 - 本地保存
+- logo制作
 
+# 参考
 
-- 参考
-https://juejin.im/post/5d7f36a95188257fed0aa1e9#heading-14
-
-http://tinymce.ax-z.cn/plugins/paste.php
-
-https://www.tiny.cloud/docs/api/tinymce.html/tinymce.html.writer/
+- [tinymce官网](https://www.tiny.cloud/docs/api/tinymce.html/tinymce.html.writer/)
+- [tinymce中文](http://tinymce.ax-z.cn/plugins/paste.php)
