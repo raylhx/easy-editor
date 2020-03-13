@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== 'development') {
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080/#editor`
+  ? `http://localhost:9080/`
   : `file://${__dirname}/index.html#editor`
 
 function createWindow () {
@@ -32,6 +32,7 @@ function createWindow () {
     width: 1000
   })
 
+  mainWindow.webContents.openDevTools()
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {

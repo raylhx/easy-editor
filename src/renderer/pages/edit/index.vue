@@ -10,7 +10,7 @@
     <div class="edit-container">
       <div class="edit-main-wrapper">
         <div class="editor">
-          <div id="main" class="edit-main" v-html="htmlContent"></div>
+          <div id="main" class="edit-main" v-html="importContent"></div>
         </div>
       </div>
     </div>
@@ -18,16 +18,9 @@
 </template>
 
 <script>
-// import Editor from 'wangeditor'
 // Import TinyMCE
-import tinymce from 'tinymce/tinymce'
 
-// A theme is also required
-import 'tinymce/themes/silver'
-import 'tinymce/plugins/paste'
-import 'tinymce/plugins/code'
-import 'tinymce/plugins/lists'
-import 'tinymce/plugins/preview'
+import tinymce from 'tinymce/tinymce'
 
 import fs from '@/modules/Filesystem.js'
 import {
@@ -50,7 +43,9 @@ export default {
       htmlContent: '', // html内容
       savePath: null, // 保存路径
       fileName: '新建', // 本地保存的文件名 todo 要不要后缀名
-      templateText: '' // 模板文件
+      templateText: '', // 模板文件
+      isInit: false,
+      importContent: ''
     }
   },
   mounted () {
@@ -65,7 +60,7 @@ export default {
      */
     checkImport () {
       if (this.flag) {
-        this.htmlContent = this.$store.state.Reader.fileContext
+        this.importContent = this.$store.state.Reader.fileContext
         this.fileName = this.$store.state.Reader.fileName
         this.savePath = this.$store.state.Reader.filePath
       }
@@ -79,26 +74,27 @@ export default {
       }
     },
     initEditor () {
+      let path = process.env.NODE_ENV !== 'production' ? '/static' : __static
       let editor = tinymce.init({
         selector: '#main',
-        language_url: '/static/tinymce/zh_CN.js',
+        language_url: `${path}/tinymce/zh_CN.js`,
         language: 'zh_CN',
-        content_css: '/static/tinymce/content.css',
-        skin_url: '/static/tinymce/skins/ui/oxide',
+        content_css: `${path}/tinymce/content.css`,
+        skin_url: `${path}/tinymce/skins/ui/oxide`,
         element_format: 'html',
         branding: false,
         resize: false,
         schema: 'html5',
         remove_linebreaks: false,
         allow_conditional_comments: false,
-        plugins: 'code paste preview lists', // http://tinymce.ax-z.cn/configure/content-filtering.php
+        plugins: 'code paste preview lists',
         toolbar: 'code preview numlist strikethrough bullist bold italic underline subscript superscript blockquote outdent indent alignjustify alignleft aligncenter alignright',
         fontsize_formats: '11px 12px 14px 16px 18px 24px 36px 48px',
         paste_webkit_styles: 'all',
         height: '80vh'
       })
+      this.isInit = true
       console.log(editor)
-      this.editor = editor
     },
     getHtml () {
       return new Promise((resolve, reject) => {
@@ -112,7 +108,6 @@ export default {
     async saveFile () {
       // 获取内容
       this.htmlContent = await this.getHtml()
-      console.log(this.htmlContent)
 
       if (!this.savePath) {
         let url = this.saveAsDialog() // todo这里可能需要promise异步
@@ -179,7 +174,6 @@ export default {
      */
     async backHome () {
       this.htmlContent = await this.getHtml()
-
       if (this.savePath) {
         // 是否更新
         let result = openDialog({
@@ -205,7 +199,6 @@ export default {
         result === 0 && this.saveFile()
       }
 
-      // todo 记得把这路由打开
       this.$router.push('index')
     }
   }
