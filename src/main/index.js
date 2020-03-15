@@ -2,9 +2,9 @@
 
 import {
   app,
-  BrowserWindow,
-  Menu,
-  MenuItem
+  BrowserWindow
+  // Menu,
+  // MenuItem
 } from 'electron'
 
 // 如果是使用插件的话，这一行代码需要引入
@@ -18,9 +18,7 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 let mainWindow
-const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080/`
-  : `file://${__dirname}/index.html`
+const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080/` : `file://${__dirname}/index.html`
 
 function createWindow () {
   /**
@@ -54,21 +52,20 @@ app.on('activate', () => {
   }
 })
 
-const menu = new Menu()
+// const menu = new Menu()
 
-menu.append(new MenuItem({
-  label: 'File',
-  submenu: [
-    {
-      label: '测试',
-      accelerator: 'CmdOrCtrl+P',
-      click: () => {
-        console.log('我是本地快捷键')
-      }
-    }
-  ]
-}))
-Menu.setApplicationMenu(menu)
+// menu.append(new MenuItem({
+//   label: 'File',
+//   submenu: [{
+//     label: '测试',
+//     accelerator: 'CmdOrCtrl+P',
+//     click: () => {
+//       console.log('我是本地快捷键')
+//     }
+//   }]
+// }))
+// Menu.setApplicationMenu(menu)
+
 /**
  * Auto Updater
  *

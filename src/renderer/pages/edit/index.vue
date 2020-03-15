@@ -54,6 +54,9 @@ export default {
     this.checkImport()
     this.getTemplate()
   },
+  beforeDestroy () {
+    tinymce.get('main').destroy()
+  },
   methods: {
     /**
      * 检查是否导入文件内容
@@ -64,7 +67,9 @@ export default {
         this.fileName = this.$store.state.Reader.fileName
         this.savePath = this.$store.state.Reader.filePath
       }
-      this.initEditor()
+      this.$nextTick(() => {
+        this.initEditor()
+      })
     },
     async getTemplate () {
       const tpl = await fs.readFile(`${__static}/template/tp.html`)
@@ -74,6 +79,7 @@ export default {
       }
     },
     initEditor () {
+      console.log('!!!!')
       let path = process.env.NODE_ENV !== 'production' ? '/static' : __static
       let editor = tinymce.init({
         selector: '#main',
@@ -94,7 +100,7 @@ export default {
         height: '80vh'
       })
       this.isInit = true
-      console.log(editor)
+      console.log('11111', editor)
     },
     getHtml () {
       return new Promise((resolve, reject) => {
@@ -208,7 +214,9 @@ export default {
 @import "~@/css/edit.css";
 * {
   box-sizing: border-box;
-  font-family: Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-family: Chinese Quote, -apple-system, BlinkMacSystemFont, Segoe UI,
+    Roboto, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue,
+    Helvetica, Arial, sans-serif;
 }
 .edit {
   width: 100%;
