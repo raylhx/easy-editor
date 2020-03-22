@@ -3,7 +3,18 @@
     <div class="logo"></div>
     <section class="select-btn">
       <button class="btn-create"><router-link to="/edit">新建一个</router-link></button>
-      <button class="btn-import" @click="importFile"><a>导入文件</a></button>
+      <button class="btn-import"><a>导入文件</a></button>
+    </section>
+    <section class="history" v-if="recordList.length > 0">
+      <h2>最近记录</h2>
+      <ul>
+        <li v-for="(item, idx) in recordList" :key="idx">
+          <div class="check-icon"></div>
+          <span class="time">{{recordList.date}}</span>
+          <span class="path-text">文件路径：{{recordList.path}}</span>
+        </li>
+      </ul>
+      
     </section>
   </div>
 </template>
@@ -17,10 +28,12 @@ import {
 export default {
   data () {
     return {
-      readFilePath: '' // 读取本地文件的文件路径
+      readFilePath: '', // 读取本地文件的文件路径
+      recordList: []
     }
   },
   mounted () {
+    this.readLocal()
   },
   methods: {
     /**
@@ -34,29 +47,16 @@ export default {
       }
     },
     async readFile (path = null) {
-      console.log('????', __static)
       // if (!path) return false
       // const res = await fs.readTemplate(path)
-      // if (res) {
-      //   console.log('?????')
-      //   console.log(res)
-      // }
-      // if (!path) return false
-      // fs.readFile(path, (err, data) => {
-      //   if (err) {
-      //     console.log('读取文件失败')
-      //     return false
-      //   }
-
-      //   console.log('data', data)
-      //   this.$store.dispatch('Reader/UPDATE_FILE', {
-      //     context: data,
-      //     name: fs.getBasename(this.readFilePath),
-      //     path: path
-      //   }).then(() => {
-      //     this.$router.push('edit')
-      //   })
-      // })
+    },
+    updateRecordList () {
+      this.recordList = this.$store
+    },
+    readLocal () {
+      let list = window.localStorage.getItem('editorFileInfoList') || []
+      this.$store.dispatch('Recorder/READ_LOCAL', list)
+      this.updateRecordList()
     }
   }
 }
@@ -98,6 +98,37 @@ export default {
   .btn-create {
     color: #000;
     background-color: #ffdd00;
+  }
+  .history {
+    width: 600px;
+    margin: 0 auto;
+    padding-top: 20px;
+    h2 {
+      font-size: 20px;
+      color: #8c8c8c;
+      font-weight: bold;
+      text-align: center;
+    }
+    ul {
+      width: 100%;
+    }
+    li {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 30px;
+      color: #8c8c8c;
+      font-size: 16px;
+      .check-icon {
+        width: 16px;
+        height: 16px;
+        background: url(~@/assets/check_icon.png) center center no-repeat;
+        background-size: 16px;
+      }
+      .time {
+        padding: 0 8px;
+      }
+    }
   }
 }
 </style>

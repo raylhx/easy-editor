@@ -79,7 +79,6 @@ export default {
       }
     },
     initEditor () {
-      console.log('!!!!')
       let path = process.env.NODE_ENV !== 'production' ? '/static' : __static
       let editor = tinymce.init({
         selector: '#main',
@@ -100,7 +99,7 @@ export default {
         height: '80vh'
       })
       this.isInit = true
-      console.log('11111', editor)
+      console.log('editor', editor)
     },
     getHtml () {
       return new Promise((resolve, reject) => {
@@ -138,7 +137,7 @@ export default {
             buttons: ['OK'],
             detail: `保存成功：${this.savePath}`
           })
-          this.localSave(this.htmlContent)
+          this.localSave()
         } else {
           console.log('保存出错')
         }
@@ -163,16 +162,16 @@ export default {
     /**
      * @description 本地保存 todo
      */
-    localSave (content) {
-      if (!content) return false
-      window.localStorage.setItem('easy', content)
+    localSave () {
       this.updateSaveTime()
-    },
-    /**
-     * @description 本地读取
-     */
-    localRead () {
-      return window.localStorage.getItem('easy') || null
+
+      let temp = {
+        date: this.saveTime,
+        path: this.savePath,
+        content: this.htmlContent
+      }
+      // 更新
+      this.$store.dispatch('Recorder/UPDATE_LIST', temp)
     },
     /**
      * @description 返回Index
@@ -200,7 +199,6 @@ export default {
           cancelId: 1,
           detail: 'The file has not been saved.Do you want to Save it?'
         })
-        console.log('result', result)
         result === 0 && this.saveFile()
       }
 
