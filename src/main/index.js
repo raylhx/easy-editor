@@ -2,8 +2,8 @@
 
 import {
   app,
-  BrowserWindow
-  // Menu,
+  BrowserWindow,
+  Menu
   // MenuItem
 } from 'electron'
 
@@ -20,14 +20,31 @@ if (process.env.NODE_ENV !== 'development') {
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080/` : `file://${__dirname}/index.html`
 
+const template = [
+  {
+    label: 'Application',
+    submenu: [{label: 'Quit', accelerator: 'Command+Q', click: function () { app.quit() }}]
+  },
+  {
+    label: 'Edit',
+    submenu: [
+      { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+      { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' }
+    ]
+  }
+]
+
 function createWindow () {
   /**
    * Initial window options
    */
+  Menu.setApplicationMenu(process.platform === 'darwin' ? Menu.buildFromTemplate(template) : null)
+
   mainWindow = new BrowserWindow({
     height: 558,
-    useContentSize: true,
     width: 1000
+    // autoHideMenuBar: true
+    // useContentSize: true
   })
 
   mainWindow.webContents.openDevTools()
@@ -52,19 +69,25 @@ app.on('activate', () => {
   }
 })
 
-// const menu = new Menu()
-
-// menu.append(new MenuItem({
-//   label: 'File',
-//   submenu: [{
-//     label: '测试',
-//     accelerator: 'CmdOrCtrl+P',
-//     click: () => {
-//       console.log('我是本地快捷键')
+// if (process.platform === 'darwin') {
+//   const template = [
+//     {
+//       label: 'Application',
+//       submenu: [{label: 'Quit', accelerator: 'Command+Q', click: function () { app.quit() }}]
+//     },
+//     {
+//       label: 'Edit',
+//       submenu: [
+//         { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+//         { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' }
+//       ]
 //     }
-//   }]
-// }))
-// Menu.setApplicationMenu(menu)
+//   ]
+//   const menu = Menu.buildFromTemplate(template)
+//   Menu.setApplicationMenu(menu)
+// } else {
+//   Menu.setApplicationMenu(null)
+// }
 
 /**
  * Auto Updater
