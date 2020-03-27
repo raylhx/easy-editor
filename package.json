@@ -22,7 +22,7 @@
   },
   "build": {
     "productName": "easy-editor",
-    "appId": "com.example.yourapp",
+    "appId": "com.example.editor",
     "directories": {
       "output": "build"
     },

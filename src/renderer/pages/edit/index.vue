@@ -3,7 +3,7 @@
     <div class="edit-navigator">
       <div class="edit-home" @click="backHome" alt="Home"></div>
       <span class="edit-title" v-show="fileName">{{fileName}} / </span>
-      <span class="edit-title">隐私权保护政策</span>
+      <span class="edit-title">文本文件</span>
       <span class="edit-tips" v-show="saveTime">最后保存于 {{ saveTime }}</span>
       <div class="btn edit-save" @click="saveFile" id="save">导出</div>
     </div>
@@ -38,7 +38,7 @@ export default {
     return {
       flag: false, // 导入true 新建 false
       editor: null,
-      title: '隐私权保护政策',
+      title: '文本文件',
       saveTime: 0, // 最后本地保存的时间
       htmlContent: '', // html内容
       savePath: null, // 保存路径
