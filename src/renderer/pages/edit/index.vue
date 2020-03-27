@@ -149,7 +149,7 @@ export default {
      * @description 保存对话框
      */
     saveAsDialog () {
-      let result = getSavePath('privacyprotocol.html', { name: 'html', extensions: ['html'] })
+      let result = getSavePath(`${timeFormat(+new Date(), 'yyyyMMddHHmm')}.html`, { name: 'html', extensions: ['html'] })
       if (result) return result
     },
     /**
@@ -160,10 +160,10 @@ export default {
       console.log('最后保存时间', this.saveTime)
     },
     /**
-     * @description 本地保存 todo
+     * @description 本地保存
      */
     localSave () {
-      this.updateSaveTime()
+      this.saveTime = timeFormat(+new Date(), 'yyyy-MM-dd HH:mm:ss')
 
       let temp = {
         date: this.saveTime,

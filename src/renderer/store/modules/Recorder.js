@@ -4,9 +4,10 @@ const state = {
 
 const mutations = {
   UPDATE_LIST (state, item) {
-    state.fileInfoList.unshift(item)
-    state.fileInfoList.pop()
-    this.UPDATE_LOCAL()
+    state.fileInfoList = item
+    // state.fileInfoList.unshift(item)
+    // state.fileInfoList.length > 5 && state.fileInfoList.pop()
+    // window.localStorage.setItem('editorFileInfoList', state.fileInfoList)
   },
   UPDATE_LOCAL (state) {
     window.localStorage.setItem('editorFileInfoList', state.fileInfoList)

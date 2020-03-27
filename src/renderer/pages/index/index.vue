@@ -68,11 +68,12 @@ export default {
   height: 100%;
   padding-top: 90px;
   .logo {
-    width: 300px;
-    height: 300px;
+    width: 130px;
+    height: 130px;
     margin: 0 auto;
+    margin-bottom: 40px;
     background: url(~@/assets/logo.png) center center no-repeat;
-    background-size: 300px;
+    background-size: 130px;
   }
   .select-btn {
     display: flex;

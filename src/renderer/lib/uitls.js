@@ -41,3 +41,15 @@ export function timeFormat (time, fmt = 'yyyy-MM-dd') {
   }
   return fmt
 }
+
+export function updateLocal (item) {
+  let list = getLocalItem('editorFileInfoList') || []
+  list.unshift()
+}
+// editorFileInfoList
+export function getLocalItem (key = '') {
+  return window.localStorage.getItem(key)
+}
+export function setLocalItem (key = '', content = '') {
+  return window.localStorage.setItem(key, content)
+}
