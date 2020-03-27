@@ -69,26 +69,6 @@ app.on('activate', () => {
   }
 })
 
-// if (process.platform === 'darwin') {
-//   const template = [
-//     {
-//       label: 'Application',
-//       submenu: [{label: 'Quit', accelerator: 'Command+Q', click: function () { app.quit() }}]
-//     },
-//     {
-//       label: 'Edit',
-//       submenu: [
-//         { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-//         { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' }
-//       ]
-//     }
-//   ]
-//   const menu = Menu.buildFromTemplate(template)
-//   Menu.setApplicationMenu(menu)
-// } else {
-//   Menu.setApplicationMenu(null)
-// }
-
 /**
  * Auto Updater
  *
