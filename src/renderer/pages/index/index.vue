@@ -3,7 +3,7 @@
     <div class="logo"></div>
     <section class="select-btn">
       <button class="btn-create"><router-link to="/edit">新建一个</router-link></button>
-      <button class="btn-import"><a>导入文件</a></button>
+      <button class="btn-import"><a @click="importFile()">导入文件</a></button>
     </section>
     <section class="history" v-if="recordList.length > 0">
       <h2>最近记录</h2>
@@ -20,20 +20,20 @@
 </template>
 
 <script>
-// import fs from '@/modules/Filesystem.js'
+import fs from '@/modules/Filesystem.js'
 
 import {
-  selectFileDialog
+  selectFileDialog,
+  openDialog
 } from '@/modules/dialog'
 export default {
   data () {
     return {
-      readFilePath: '', // 读取本地文件的文件路径
       recordList: []
     }
   },
   mounted () {
-    this.readLocal()
+    // this.readLocal()
   },
   methods: {
     /**
@@ -41,14 +41,33 @@ export default {
      */
     importFile () {
       let result = selectFileDialog()
-      if (result.length > 0) {
-        this.readFilePath = result[0]
-        this.readFile(this.readFilePath)
+      if (result) {
+        let readFilePath = result[0]
+        this.readFile(readFilePath)
       }
     },
+
     async readFile (path = null) {
-      // if (!path) return false
-      // const res = await fs.readTemplate(path)
+      if (!path) return
+
+      if (!this.isWordFile(path)) {
+        openDialog({
+          type: 'error',
+          buttons: ['OK'],
+          detail: 'Only docx or doc document types are supported'
+        })
+        return
+      }
+
+      const res = await fs.readDocx(path)
+      if (res !== '') {
+        console.log('read word success')
+        this.$store.dispatch('Reader/UPDATE_FILE', {
+          context: res,
+          name: fs.getBasename(path)
+        })
+        this.$router.push('edit')
+      }
     },
     updateRecordList () {
       this.recordList = this.$store
@@ -57,6 +76,18 @@ export default {
       let list = window.localStorage.getItem('editorFileInfoList') || []
       this.$store.dispatch('Recorder/READ_LOCAL', list)
       this.updateRecordList()
+    },
+    /**
+     * @description 判断是否为word文档
+     * @param {string} name 文件名称
+     */
+    isWordFile (name) {
+      const lastIndex = name.lastIndexOf('.') + 1
+      if (!lastIndex) return false
+      const len = name.length
+      const suffix = name.substring(lastIndex, len)
+      if (suffix === 'doc' || suffix === 'docx') return true
+      return false
     }
   }
 }

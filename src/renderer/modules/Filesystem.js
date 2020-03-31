@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+const mammoth = require('mammoth')
 
 class Filesystem {
   constructor () {
@@ -52,6 +53,28 @@ class Filesystem {
         if (!err) {
           resolve('ok')
         }
+      })
+    })
+  }
+  readDocx (path) {
+    return new Promise((resolve, reject) => {
+      console.log('path', path)
+      if (!path) resolve('')
+
+      fs.readFile(path, (err, data) => {
+        if (err) {
+          console.log('readfile error', err)
+          resolve('')
+        }
+        mammoth.convertToHtml({arrayBuffer: data})
+          .then(function (result) {
+            let content = result.value // The generated HTML
+            let messages = result.messages // Any messages, such as warnings during conversion
+            // console.log('html', content)
+            console.log('read docx messages', messages)
+            resolve(content)
+          })
+          .done()
       })
     })
   }

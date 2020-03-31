@@ -165,13 +165,13 @@ export default {
     localSave () {
       this.saveTime = timeFormat(+new Date(), 'yyyy-MM-dd HH:mm:ss')
 
-      let temp = {
-        date: this.saveTime,
-        path: this.savePath,
-        content: this.htmlContent
-      }
+      // let temp = {
+      //   date: this.saveTime,
+      //   path: this.savePath,
+      //   content: this.htmlContent
+      // }
       // 更新
-      this.$store.dispatch('Recorder/UPDATE_LIST', temp)
+      // this.$store.dispatch('Recorder/UPDATE_LIST', temp)
     },
     /**
      * @description 返回Index
@@ -247,7 +247,7 @@ export default {
     cursor: pointer;
   }
   .edit-title {
-    max-width: 300px;
+    max-width: 600px;
     font-size: 20px;
     font-weight: 700;
     color: #262626;

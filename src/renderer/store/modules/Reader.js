@@ -14,7 +14,6 @@ const mutations = {
     state.isReadFile = true
     state.fileContext = file.context
     state.fileName = file.name
-    state.filePath = file.path
   }
 }
 
